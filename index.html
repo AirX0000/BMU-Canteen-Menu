@@ -240,8 +240,17 @@
                     card.className = 'menu-card';
                     card.style.animationDelay = `${index * 0.1}s`;
                     
+                    // Функция для конвертации ссылок Google Drive в прямые ссылки на изображения
+                    function getDirectDriveLink(link) {
+                        if (link.includes('drive.google.com')) {
+                            const id = link.match(/\/d\/(.+?)\//) || link.match(/id=(.+?)(&|$)/);
+                            if (id && id[1]) return `https://drive.google.com/uc?export=download&id=${id[1]}`;
+                        }
+                        return link;
+                    }
+
                     // Проверка ссылки на фото
-                    const displayImg = (img && img.startsWith('http')) ? img : 'https://images.unsplash.com/photo-1544145945-f904253d0c7b?q=80&w=200&auto=format&fit=crop';
+                    let displayImg = (img && img.startsWith('http')) ? getDirectDriveLink(img) : 'https://images.unsplash.com/photo-1544145945-f904253d0c7b?q=80&w=200&auto=format&fit=crop';
 
                     card.innerHTML = `
                         <div class="img-wrapper">
