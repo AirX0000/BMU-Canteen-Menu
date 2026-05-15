@@ -241,10 +241,14 @@
                     card.style.animationDelay = `${index * 0.1}s`;
                     
                     // Функция для конвертации ссылок Google Drive в прямые ссылки на изображения
+                    // Улучшенная конвертация Google Drive ссылок
                     function getDirectDriveLink(link) {
                         if (link.includes('drive.google.com')) {
-                            const id = link.match(/\/d\/(.+?)\//) || link.match(/id=(.+?)(&|$)/);
-                            if (id && id[1]) return `https://drive.google.com/uc?export=download&id=${id[1]}`;
+                            const idMatch = link.match(/\/d\/(.+?)\//) || link.match(/id=(.+?)(&|$)/);
+                            if (idMatch && idMatch[1]) {
+                                // Используем более надежный эндпоинт для встраивания изображений
+                                return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+                            }
                         }
                         return link;
                     }
