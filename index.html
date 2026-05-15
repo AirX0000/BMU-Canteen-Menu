@@ -70,15 +70,15 @@
         }
 
         .header {
-            padding: 80px 30px 40px;
-            max-width: 800px;
+            padding: clamp(60px, 10vh, 100px) 20px 40px;
+            max-width: 1000px;
             margin: 0 auto;
             text-align: center;
         }
 
         .header p {
             color: var(--accent-blue);
-            font-size: 12px;
+            font-size: clamp(10px, 2vw, 12px);
             font-weight: 700;
             letter-spacing: 5px;
             text-transform: uppercase;
@@ -87,7 +87,7 @@
         }
 
         .header h1 {
-            font-size: clamp(48px, 12vw, 72px);
+            font-size: clamp(40px, 15vw, 90px);
             font-weight: 800;
             line-height: 0.85;
             text-transform: uppercase;
@@ -100,22 +100,13 @@
             animation: scaleIn 1.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         .container {
             padding: 0 20px 100px;
-            max-width: 540px;
+            max-width: 900px; /* Увеличил ширину для десктопа */
             margin: 0 auto;
             display: grid;
             gap: 24px;
+            width: 100%; /* Занимает всю доступную ширину до макс-лимита */
         }
 
         .menu-card {
@@ -123,10 +114,10 @@
             border: 1px solid var(--glass-border);
             -webkit-backdrop-filter: blur(24px);
             backdrop-filter: blur(24px);
-            border-radius: 40px;
-            padding: 12px;
+            border-radius: clamp(24px, 5vw, 40px);
+            padding: clamp(12px, 3vw, 20px);
             display: flex;
-            gap: 15px;
+            gap: clamp(15px, 4vw, 30px);
             align-items: center;
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
             animation: cardFade 0.8s ease backwards;
@@ -141,17 +132,17 @@
         .menu-card:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(56, 189, 248, 0.4);
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-8px) scale(1.01);
             box-shadow: 
                 0 20px 40px rgba(0,0,0,0.4),
                 0 0 20px rgba(56, 189, 248, 0.1);
         }
 
         .img-wrapper {
-            width: 140px;
-            height: 160px;
+            width: clamp(110px, 25vw, 160px);
+            height: clamp(130px, 30vw, 180px);
             flex-shrink: 0;
-            border-radius: 32px;
+            border-radius: clamp(18px, 4vw, 32px);
             overflow: hidden;
             background: #0f172a;
             position: relative;
@@ -170,13 +161,13 @@
 
         .item-info {
             flex: 1;
-            padding: 10px 15px 10px 0;
+            padding: 5px 0;
         }
 
         .item-info h3 {
-            font-size: 24px;
+            font-size: clamp(20px, 5vw, 28px);
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: clamp(10px, 3vw, 15px);
             color: #fff;
             letter-spacing: -0.5px;
         }
@@ -191,8 +182,8 @@
             justify-content: space-between;
             align-items: center;
             background: rgba(255, 255, 255, 0.02);
-            padding: 10px 18px;
-            border-radius: 18px;
+            padding: 10px clamp(12px, 3vw, 20px);
+            border-radius: clamp(12px, 3vw, 18px);
             border: 1px solid rgba(255, 255, 255, 0.02);
             transition: all 0.3s ease;
         }
@@ -203,13 +194,13 @@
         }
 
         .price-tag .vol {
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: var(--text-dim);
             font-weight: 500;
         }
 
         .price-tag .amt {
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 18px);
             font-weight: 700;
             color: var(--accent-blue);
             text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
@@ -225,23 +216,27 @@
             text-transform: uppercase;
         }
 
-        @media (max-width: 480px) {
-            .header { padding: 60px 20px 30px; }
+        /* Адаптив для мобильных устройств */
+        @media (max-width: 600px) {
+            .container { padding: 0 15px 60px; }
             .menu-card { 
                 flex-direction: column; 
-                padding: 10px; 
-                border-radius: 35px;
+                text-align: center;
+                padding: 15px;
             }
             .img-wrapper { 
                 width: 100%; 
-                height: 220px; 
-                border-radius: 28px;
+                height: 240px; 
             }
             .item-info { 
-                padding: 15px 10px; 
+                padding: 0; 
                 width: 100%;
             }
-            .item-info h3 { text-align: center; }
+            .price-list {
+                max-width: 300px;
+                margin: 0 auto;
+                width: 100%;
+            }
         }
     </style>
 </head>
