@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BMU Canteen | Professional Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0f172a;
+            --bmu-blue: #1e293b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-glow: rgba(56, 189, 248, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-deep);
+            /* Создаем эффект глубины и теней как на референсе */
+            background-image:
+                radial-gradient(circle at 80% 20%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(30, 58, 138, 0.3) 0%, transparent 40%),
+                linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        /* Декоративные размытые листья (как на фото) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/leaf.png');
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .header {
+            padding: 50px 24px 30px;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1;
+            background: linear-gradient(to bottom, #fff 60%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 16px;
+            margin: 10px 0 0;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            padding: 0 20px 100px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            padding-left: 5px;
+        }
+
+        /* Эффект матового стекла (Glassmorphism) */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .item-img {
+            width: 110px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-info h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 15px;
+            border-radius: 14px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .price-row span:first-child {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .price-row span:last-child {
+            font-weight: 700;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .loader {
+            text-align: center;
+            margin-top: 100px;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>BMU<br>CANTEEN</h1>
+        <p>Professional service</p>
+    </header>
+
+    <div class="container" id="menu-root">
+        <div class="loader">Loading menu...</div>
+    </div>
+
+    <script>
+        const SHEET_ID = '1GqqzNX3FQlyi61DO93hkc-Z_Iw5RcJJXmvANP8LC8rA';
+        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+
+        async function fetchMenu() {
+            try {
+                const response = await fetch(CSV_URL);
+                const csvText = await response.text();
+                const rows = csvText.split('\n').slice(1);
+                const root = document.getElementById('menu-root');
+                root.innerHTML = '';
+
+                rows.forEach(row => {
+                    const cleanRow = row.replace('\r', '');
+                    const cols = cleanRow.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if (cols.length < 2) return;
+
+                    const name = cols[0].replace(/"/g, '').trim();
+                    const prices = cols[1].replace(/"/g, '').trim();
+                    const img = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
+
+                    const card = `
+                        <div class="glass-card">
+                            <img src="${img}" class="item-img" onerror="this.src='https://via.placeholder.com/110x130/1e293b/fff?text=BMU'">
+                            <div class="item-info">
+                                <h3>${name}</h3>
+                                ${prices.split('/').map(p => {
+                        const [vol, prc] = p.split('-');
+                        return `
+                                        <div class="price-row">
+                                            <span>${vol ? vol.trim() : ''}</span>
+                                            <span>${prc ? prc.trim() : ''}</span>
+                                        </div>
+                                    `;
+                    }).join('')}
+                            </div>
+                        </div>
+                    `;
+                    root.innerHTML += card;
+                });
+            } catch (err) {
+                document.getElementById('menu-root').innerHTML = '<p style="text-align:center">Ошибка загрузки. Проверьте публикацию таблицы.</p>';
+            }
+        }
+        fetchMenu();
+    </script>
+</body>
+
+</html>
