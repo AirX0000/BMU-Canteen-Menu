@@ -4,151 +4,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BMU Canteen | Professional Service</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>BMU Canteen | Professional Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0f172a;
-            --bmu-blue: #1e293b;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --accent-glow: rgba(56, 189, 248, 0.15);
+            --bg-deep: #0a0f1d;
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background: var(--bg-deep);
-            /* Создаем эффект глубины и теней как на референсе */
-            background-image:
-                radial-gradient(circle at 80% 20%, var(--accent-glow) 0%, transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(30, 58, 138, 0.3) 0%, transparent 40%),
-                linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.15) 0%, transparent 50%);
             background-attachment: fixed;
-            color: #ffffff;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-        }
-
-        /* Декоративные размытые листья (как на фото) */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/leaf.png');
-            opacity: 0.03;
-            pointer-events: none;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .header {
-            padding: 50px 24px 30px;
-            text-align: left;
-            max-width: 600px;
+            padding: 60px 30px 40px;
+            max-width: 800px;
             margin: 0 auto;
+            position: relative;
         }
 
         .header h1 {
-            font-size: 42px;
+            font-size: clamp(40px, 10vw, 56px);
             font-weight: 800;
-            margin: 0;
-            letter-spacing: -1px;
-            line-height: 1;
-            background: linear-gradient(to bottom, #fff 60%, #94a3b8);
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 50%, var(--text-dim));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
 
         .header p {
-            color: #94a3b8;
-            font-size: 16px;
-            margin: 10px 0 0;
-            font-weight: 400;
-            letter-spacing: 1px;
+            color: var(--accent-blue);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.8;
         }
 
         .container {
             padding: 0 20px 100px;
             max-width: 600px;
             margin: 0 auto;
+            display: grid;
+            gap: 20px;
         }
 
-        .category-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 40px 0 20px;
-            padding-left: 5px;
-        }
-
-        /* Эффект матового стекла (Glassmorphism) */
-        .glass-card {
+        .menu-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
-            padding: 20px;
-            margin-bottom: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 16px;
             display: flex;
-            align-items: center;
             gap: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            animation: fadeIn 0.8s ease backwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .img-wrapper {
+            width: 120px;
+            height: 140px;
+            flex-shrink: 0;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #1e293b;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
         .item-img {
-            width: 110px;
-            height: 130px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover .item-img {
+            transform: scale(1.1);
         }
 
         .item-info {
             flex: 1;
+            padding-right: 10px;
         }
 
         .item-info h3 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
-            margin: 0 0 12px 0;
+            margin-bottom: 12px;
+            color: #fff;
         }
 
-        .price-row {
+        .price-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .price-tag {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(255, 255, 255, 0.03);
-            padding: 10px 15px;
+            padding: 8px 16px;
             border-radius: 14px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        .price-row span:first-child {
-            color: #94a3b8;
-            font-size: 14px;
+        .price-tag .vol {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-weight: 400;
         }
 
-        .price-row span:last-child {
-            font-weight: 700;
-            color: #fff;
+        .price-tag .amt {
             font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-blue);
         }
 
         .loader {
             text-align: center;
-            margin-top: 100px;
-            color: #94a3b8;
+            padding: 100px 0;
+            color: var(--text-dim);
+            font-size: 18px;
             font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Адаптивность для мобилок */
+        @media (max-width: 480px) {
+            .menu-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px;
+            }
+            .img-wrapper {
+                width: 100%;
+                height: 200px;
+            }
+            .item-info {
+                padding: 10px 5px;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -156,59 +190,94 @@
 <body>
 
     <header class="header">
+        <p>Premium Experience</p>
         <h1>BMU<br>CANTEEN</h1>
-        <p>Professional service</p>
     </header>
 
-    <div class="container" id="menu-root">
-        <div class="loader">Loading menu...</div>
-    </div>
+    <main class="container" id="menu-container">
+        <div class="loader">ПОДГРУЖАЕМ МЕНЮ...</div>
+    </main>
 
     <script>
         const SHEET_ID = '1GqqzNX3FQlyi61DO93hkc-Z_Iw5RcJJXmvANP8LC8rA';
         const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 
-        async function fetchMenu() {
+        async function initMenu() {
             try {
-                const response = await fetch(CSV_URL);
-                const csvText = await response.text();
-                const rows = csvText.split('\n').slice(1);
-                const root = document.getElementById('menu-root');
-                root.innerHTML = '';
+                const res = await fetch(CSV_URL);
+                const data = await res.text();
+                const rows = data.split('\n').map(r => r.trim()).filter(r => r.length > 0);
+                
+                const container = document.getElementById('menu-container');
+                container.innerHTML = '';
 
-                rows.forEach(row => {
-                    const cleanRow = row.replace('\r', '');
-                    const cols = cleanRow.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if (cols.length < 2) return;
+                rows.forEach((row, index) => {
+                    // Разбор CSV с учетом кавычек
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/"/g, '').trim());
+                    
+                    // Пытаемся найти полезные данные в строке
+                    // В твоей таблице данные могут быть смещены из-за пустых колонок
+                    // Ищем первую непустую колонку как название
+                    let name = '', prices = '', img = '';
+                    
+                    // Логика поиска данных: игнорируем системные строки и заголовки
+                    const meaningfulCols = cols.filter(c => c.length > 0);
+                    if (meaningfulCols.length < 2) return;
+                    
+                    // Если строка содержит "Название" или "Столбец", пропускаем её
+                    if (row.includes('Название') || row.includes('Столбец')) return;
 
-                    const name = cols[0].replace(/"/g, '').trim();
-                    const prices = cols[1].replace(/"/g, '').trim();
-                    const img = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
+                    // Привязка к структуре (название обычно после первой пустой или в начале)
+                    name = cols[1] || cols[0];
+                    prices = cols[2] || cols[1];
+                    img = cols[3] || cols[2] || '';
 
-                    const card = `
-                        <div class="glass-card">
-                            <img src="${img}" class="item-img" onerror="this.src='https://via.placeholder.com/110x130/1e293b/fff?text=BMU'">
-                            <div class="item-info">
-                                <h3>${name}</h3>
+                    // Если название всё еще пустое или слишком техническое, пропускаем
+                    if (!name || name.length < 2) return;
+
+                    const card = document.createElement('div');
+                    card.className = 'menu-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    // Проверка ссылки на фото
+                    const displayImg = (img && img.startsWith('http')) ? img : 'https://images.unsplash.com/photo-1544145945-f904253d0c7b?q=80&w=200&auto=format&fit=crop';
+
+                    card.innerHTML = `
+                        <div class="img-wrapper">
+                            <img src="${displayImg}" class="item-img" alt="${name}" onerror="this.src='https://via.placeholder.com/120x140/1e293b/38bdf8?text=BMU'">
+                        </div>
+                        <div class="item-info">
+                            <h3>${name}</h3>
+                            <div class="price-list">
                                 ${prices.split('/').map(p => {
-                        const [vol, prc] = p.split('-');
-                        return `
-                                        <div class="price-row">
-                                            <span>${vol ? vol.trim() : ''}</span>
-                                            <span>${prc ? prc.trim() : ''}</span>
+                                    const parts = p.split('-');
+                                    const vol = parts[0] ? parts[0].trim() : '';
+                                    const prc = parts[1] ? parts[1].trim() : '';
+                                    if(!vol && !prc) return '';
+                                    return `
+                                        <div class="price-tag">
+                                            <span class="vol">${vol}</span>
+                                            <span class="amt">${prc}</span>
                                         </div>
                                     `;
-                    }).join('')}
+                                }).join('')}
                             </div>
                         </div>
                     `;
-                    root.innerHTML += card;
+                    container.appendChild(card);
                 });
-            } catch (err) {
-                document.getElementById('menu-root').innerHTML = '<p style="text-align:center">Ошибка загрузки. Проверьте публикацию таблицы.</p>';
+
+                if (container.children.length === 0) {
+                    container.innerHTML = '<div class="loader">МЕНЮ ПОКА ПУСТО</div>';
+                }
+
+            } catch (e) {
+                console.error(e);
+                document.getElementById('menu-container').innerHTML = '<div class="loader">ОШИБКА ЗАГРУЗКИ. ПРОВЕРЬТЕ ТАБЛИЦУ.</div>';
             }
         }
-        fetchMenu();
+
+        initMenu();
     </script>
 </body>
 
