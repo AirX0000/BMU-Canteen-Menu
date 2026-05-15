@@ -244,10 +244,10 @@
                     // Улучшенная конвертация Google Drive ссылок
                     function getDirectDriveLink(link) {
                         if (link.includes('drive.google.com')) {
-                            const idMatch = link.match(/\/d\/(.+?)\//) || link.match(/id=(.+?)(&|$)/);
-                            if (idMatch && idMatch[1]) {
-                                // Используем более надежный эндпоинт для встраивания изображений
-                                return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+                            // Более надежный поиск ID
+                            const match = link.match(/\/d\/([^/]+)/) || link.match(/id=([^&]+)/);
+                            if (match && match[1]) {
+                                return `https://lh3.googleusercontent.com/d/${match[1]}`;
                             }
                         }
                         return link;
