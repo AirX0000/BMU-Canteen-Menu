@@ -275,7 +275,16 @@
                 const container = document.getElementById('menu-container');
                 container.innerHTML = '';
 
-                rows.forEach((row, index) => {
+                // Если таблица пустая или содержит только заголовки, используем данные пользователя
+                const hasRealData = rows.some(r => !r.includes('Название') && !r.includes('Столбец') && r.split(',').length > 1);
+                
+                const menuToRender = hasRealData ? rows : [
+                    ',Лимонад,350мл - 20.000 / 0.5 - 25.000 / 0.7 - 30.000,https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=400&auto=format&fit=crop',
+                    ',Айсти,350мл - 25.000 / 0.5 - 30.000 / 0.7 - 35.000,https://images.unsplash.com/photo-1499638673689-79a0b5115d87?q=80&w=400&auto=format&fit=crop',
+                    ',Горячий чай,0.4 - 25.000 / 0.5 - 30.000,https://images.unsplash.com/photo-1544145945-f904253d0c7b?q=80&w=400&auto=format&fit=crop'
+                ];
+
+                menuToRender.forEach((row, index) => {
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/"/g, '').trim());
                     
                     if (cols.filter(c => c.length > 0).length < 2) return;
